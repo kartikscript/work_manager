@@ -5,12 +5,12 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const path=request.nextUrl.pathname;
 
-   const isPublicPath=path==='/signin' || path==='/signup' || path==='/'
+   const isPublicPath=path==='/signin' || path==='/signup' 
    const token = request.cookies.get('userToken')?.value || ""
 
    if(token && isPublicPath){// if a user has token (he is on profile ,etc) and trying to access publicPath by writing in url path ( /login) so then redirect him to the below coded page
           
-       return NextResponse.redirect(new URL('/', request.nextUrl))
+       return NextResponse.redirect(new URL('/show-tasks', request.nextUrl))
    }
    if(!token && !isPublicPath){// user has no token and trying to access profile (other than publicpaths)
     return NextResponse.redirect(new URL('/signin', request.nextUrl))
@@ -19,5 +19,5 @@ export function middleware(request: NextRequest) {
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/about/:path*','/','/signin','/signup','/addwork','/show-tasks']
+  matcher: ['/about/:path*','/signin','/signup','/addwork','/show-tasks']
 }
